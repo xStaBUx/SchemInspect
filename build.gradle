@@ -18,7 +18,7 @@ repositories{
 
 ext{
     //the build number that this mod is made for
-    mindustryVersion = 'v145'
+    mindustryVersion = 'v146'
     jabelVersion = "93fde537c7"
     sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
 }
@@ -73,6 +73,9 @@ static def getdatadir() { //Returns Mindustry data directory path
 
 task jarAndroid{
     dependsOn "jar"
+    onlyIf {
+        sdkRoot && new File(sdkRoot).exists() && new File("$sdkRoot/build-tools").exists()
+    }
 
     doLast{
         if(!sdkRoot || !new File(sdkRoot).exists()) throw new GradleException("No valid Android SDK found. Ensure that ANDROID_HOME is set to your Android SDK directory.");
